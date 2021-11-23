@@ -1,7 +1,8 @@
 pipeline {
     agent any
     environment {
-        APP_VERSION = '1.0.0'
+        APP_VERSION = '1.0.0',
+        CREDENTIALS = credentials('jenkins-test')
     }
     stages {
         stage('test') {
@@ -23,6 +24,7 @@ pipeline {
         stage('deploy') {
             steps {
                 sh 'echo "deployment completed - SUCCESS"'
+                echo "credentials are ${CREDENTIALS}"
             }
         }
     }
