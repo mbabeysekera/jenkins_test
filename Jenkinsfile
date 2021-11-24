@@ -1,3 +1,4 @@
+def gv
 pipeline {
     agent any
     environment {
@@ -10,6 +11,11 @@ pipeline {
         booleanParam(name: "Production", defaultValue: false, description: '')
     }
     stages {
+        stage('init') {
+            steps {
+                gv = load "functions.groovy"
+            }
+        }
         stage('test') {
             when {
                 expression {
@@ -17,7 +23,7 @@ pipeline {
                 }
             }
             steps {
-                sh 'echo "test cases passed - SUCCESS"'
+                gv.testConfig()
             }
         }
         stage('build') {
@@ -27,14 +33,12 @@ pipeline {
                 }
             }
             steps {
-                sh 'echo "build completed - SUCCESS"'
-                echo "build version is ${APP_VERSION}"
+                gv.buildConfig()
             }
         }
         stage('deploy') {
             steps {
-                sh 'echo "deployment completed - SUCCESS"'
-                echo "credentials are ${CREDENTIALS}"
+                gv.deployConfig()
             }
         }
     }
