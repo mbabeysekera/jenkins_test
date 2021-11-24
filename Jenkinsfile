@@ -4,11 +4,16 @@ pipeline {
         APP_VERSION = '1.0.0'
         CREDENTIALS = credentials('jenkins-test')
     }
+    parameters {
+        string(name: 'version', defaultValue: "1.0.0", description: '')
+        choice(name: 'Tool', choices: ["shell", "mnv", "gradle"], description: '')
+        booleanParam(name: "Production", defaultValue: false, description: '')
+    }
     stages {
         stage('test') {
             when {
                 expression {
-                    BRANCH_NAME == 'dev'
+                    BRANCH_NAME == 'dev' && params.Production == false
                 }
             }
             steps {
@@ -16,6 +21,11 @@ pipeline {
             }
         }
         stage('build') {
+            when {
+                expression {
+                    params.Tool == "shell"
+                }
+            }
             steps {
                 sh 'echo "build completed - SUCCESS"'
                 echo "build version is ${APP_VERSION}"
