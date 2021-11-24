@@ -6,14 +6,16 @@ pipeline {
         CREDENTIALS = credentials('jenkins-test')
     }
     parameters {
-        string(name: 'version', defaultValue: "1.0.0", description: '')
-        choice(name: 'Tool', choices: ["shell", "mnv", "gradle"], description: '')
-        booleanParam(name: "Production", defaultValue: false, description: '')
+        string(name: 'version', defaultValue: '1.0.0', description: '')
+        choice(name: 'Tool', choices: ['shell', 'mnv', 'gradle'], description: '')
+        booleanParam(name: 'Production', defaultValue: false, description: '')
     }
     stages {
         stage('init') {
             steps {
-                gv = load "functions.groovy"
+                script {
+                    gv = load 'functions.groovy'
+                }
             }
         }
         stage('test') {
@@ -23,17 +25,21 @@ pipeline {
                 }
             }
             steps {
-                gv.testConfig()
+                script {
+                    gv.testConfig()
+                }
             }
         }
         stage('build') {
             when {
                 expression {
-                    params.Tool == "shell"
+                    params.Tool == 'shell'
                 }
             }
             steps {
-                gv.buildConfig()
+                script {
+                    gv.buildConfig()
+                }
             }
         }
         stage('deploy') {
