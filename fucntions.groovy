@@ -10,3 +10,5 @@ def deployConfig() {
     sh 'echo "deployment completed - SUCCESS"'
     echo "credentials are ${CREDENTIALS}"
 }
+
+return this
