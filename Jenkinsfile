@@ -44,7 +44,9 @@ pipeline {
         }
         stage('deploy') {
             steps {
-                gv.deployConfig()
+                script {
+                    gv.deployConfig()
+                }
             }
         }
     }
