@@ -13,10 +13,7 @@ def deployConfig() {
 				date
 				ssh root@192.168.220.132 >> ENDSSH
 				java -version
-			    	date
-			    	cd /tmp
-			    	pwd
-                ENDSSH
-        '''
+ENDSSH
+'''
 }
 return this
