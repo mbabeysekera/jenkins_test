@@ -9,10 +9,8 @@ def buildConfig() {
 def deployConfig() {
     sh 'echo "deployment completed - SUCCESS"'
     echo "credentials are ${CREDENTIALS}"
-    sh '''#!/bin/bash
-				date
-				ssh root@192.168.220.132 >> ENDSSH
-				java -version
+    sh '''ssh root@192.168.220.132 'bash -s' <<'ENDSSH'
+  pwd
 ENDSSH
 '''
 }
